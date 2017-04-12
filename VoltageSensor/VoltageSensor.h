@@ -6,10 +6,10 @@
 class VoltageSensor {
     public:
         VoltageSensor(int);
-        VoltageSensor(int, float, float);
+        VoltageSensor(int, float, float, float);
         float readSensor();
     private:
         float R1, R2;
-        int pinNumber;
+        int pinNumber, internalVoltage;
 };
 #endif //VOLTAGESENSOR_H

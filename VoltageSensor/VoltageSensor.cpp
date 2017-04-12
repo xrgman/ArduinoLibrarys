@@ -9,7 +9,8 @@ VoltageSensor::VoltageSensor(int pinNumber) {
 
     //Setting default resistor values for module from ebay:
     this->R1 = 30000.0;
-    this->R2 = 7400.0;
+    this->R2 = 7500.0;
+    this->internalVoltage = 5.00;
 }
 
 /*!
@@ -18,10 +19,11 @@ VoltageSensor::VoltageSensor(int pinNumber) {
  * @param R1 - Value of the first resistor.
  * @param R2 - Value of the first resistor.
  */
-VoltageSensor::VoltageSensor(int pinNumber, float R1, float R2) {
+VoltageSensor::VoltageSensor(int pinNumber, float R1, float R2, float internalVoltgae) {
     this->pinNumber = pinNumber;
     this->R1 = R1;
     this->R2 = R2;
+    this->internalVoltage = internalVoltgae;
 }
 
 /*!
@@ -32,7 +34,7 @@ VoltageSensor::VoltageSensor(int pinNumber, float R1, float R2) {
  */
 float VoltageSensor::readSensor() {
     float value = analogRead(pinNumber);
-    float vOut = (value * 5.0) / 1024.0;
+    float vOut = (value * internalVoltage) / 1024.0;
     float vIn = vOut / (R2/(R1+R2));
     return vIn;
 }
