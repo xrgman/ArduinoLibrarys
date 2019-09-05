@@ -5,6 +5,8 @@
 #ifndef ANALOGLEDSTRIP_ANALOGLEDSTRIP_H
 #define ANALOGLEDSTRIP_ANALOGLEDSTRIP_H
 
+#include "PwmController.h"
+
 class AnalogLedStrip {
 
     private:
@@ -14,8 +16,9 @@ class AnalogLedStrip {
         int effectRed, effectGreen, effectBlue;
         int brightness, timerCounter;
         int effectSpeed, effectCounter, colorId;
-        bool power;
-        char effectMode;
+        bool usePwmController, power;
+        char effectMode, prevEffectMode;
+        PwmController pwmController;
     //Methods:
         void SetRecentColor(int, int, int);
         void SetRecentColorEffect(int, int, int);
@@ -26,15 +29,18 @@ class AnalogLedStrip {
         void Fade3Effect();
         void Fade7Effect();
         void FlashEffect();
+        void PowerOnEffect();
 
     public:
         enum Color { Red=0, Green=1, Blue=2 };
     //Constructors:
         AnalogLedStrip(int, int, int);
+        AnalogLedStrip(int, int, int, PwmController); //
         AnalogLedStrip(int, int, int, int, int); // Constructor with saveAdress
     //Events:
         void TimerEvent();
         void SerialEvent(String);
+        void IREvent(long irCode);
     //Basic functionality:
         void SetColor(int, int, int);
         void SetBrightness(int);
@@ -48,6 +54,7 @@ class AnalogLedStrip {
         void AlterColor(Color, int);
     //Getter and setters:
         void SetPower(bool);
+        void SetPowerFade(bool);
         bool GetPower();
         int GetRed();
         int GetGreen();
